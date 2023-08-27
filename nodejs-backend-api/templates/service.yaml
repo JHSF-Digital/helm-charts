@@ -1,0 +1,15 @@
+{{- $svcPort := .Values.service.port -}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}-service
+  labels:
+    {{- include "nodejs-backend-api.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ $svcPort }}
+      targetPort: 3000
+      protocol: TCP
+  selector:
+    {{- include "nodejs-backend-api.selectorLabels" . | nindent 4 }}
